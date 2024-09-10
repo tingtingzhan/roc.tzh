@@ -1,0 +1,19 @@
+Package: roc.tzh
+Type: Package
+Title: Advanced ROC Plots
+Version: 0.1.0
+Date: 2024-01-15
+Author: Tingting Zhan [aut, cre, cph]
+Maintainer: Tingting Zhan <tingtingzhan@gmail.com>
+Description: To perform advanced ROC analysis.
+License: GPL-2
+Encoding: UTF-8
+Imports: ggrepel, pROC, risksetROC, scales, survival, survivalROC
+Authors@R: c(person(given = "Tingting", family = "Zhan", role =
+       c("aut", "cre", "cph"), email =
+       c("tingtingzhan@gmail.com")))
+Language: en-US
+Roxygen: list(markdown = TRUE)
+Depends: R (>= 4.3.0), ggplot2
+Suggests: MASS
+RoxygenNote: 7.3.2

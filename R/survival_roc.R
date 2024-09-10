@@ -1,0 +1,206 @@
+
+
+
+#' @title Survival ROC and Risk Set ROC
+#' 
+#' @description
+#' Convert the returned objects of \link[survivalROC]{survivalROC} and \link[risksetROC]{risksetROC}
+#' into `'roc'` objects (as returned by \link[pROC]{roc}), 
+#' to take advantages of S3 methods such as \link[pROC]{plot.roc} and [autoplot.roc()].
+#' 
+#' @param formula ..
+#' 
+#' @param data ..
+#' 
+#' @param predict.time,span,... additional parameters of 
+#' \link[survivalROC]{survivalROC} and \link[risksetROC]{risksetROC}
+#' 
+#' @references
+#' \url{https://rpubs.com/kaz_yos/survival-auc}
+#' 
+#' @examples
+#' ?survivalROC::survivalROC
+#' data(mayo, package = 'survivalROC')
+#' library(survival)
+#' mayo = within(mayo, expr = {
+#'  time = as.difftime(time, units = 'days')
+#'  edp = Surv(time, censor)
+#' })
+#' m1 = survival_roc(edp ~ mayoscore4, data = mayo, predict.time = 365)
+#' Sprintf.survival_roc(m1)
+#' autoplot.roc(m1)
+#' autoplot(m1)
+#' 
+#' 
+#' @name survival_roc
+#' @importFrom pROC coords
+#' @importFrom survivalROC survivalROC
+#' @export
+survival_roc <- function(
+    formula, data, predict.time, 
+    span = .25 * NROW(data)^(-.2), # from examples in ?survivalROC::survivalROC
+    ...
+) {
+  
+  yval <- eval(formula[[2L]], envir = data)
+  if (!length(unt <- units.Surv(yval))) stop('time-to-event endpoint must carry `unit`')
+  
+  xval <- eval(formula[[3L]], envir = data)
+  
+  tmp <- survivalROC(Stime = yval[,1L], status = yval[,2L], marker = xval, predict.time = predict.time, span = span, ...)
+  # `tmp` is a 'list'
+  # convert `tmp` to class `?pROC::roc`, so that I can use `?pROC:::plot.roc.roc`
+  
+  ret <- with(tmp, list(
+    percent = FALSE,
+    sensitivities = TP,
+    specificities = 1 - FP,
+    thresholds = cut.values,
+    auc = structure(AUC, partial.auc = FALSE, class = 'auc')
+  ))
+  class(ret) <- c('survival_roc', 'roc')
+  #attr(ret, which = 'main') <- paste0(deparse1(formula[[2L]]), ' at Time ', predict.time)
+  attr(ret, which = 'main') <- paste0(deparse1(formula), ', t = ', predict.time)
+  attr(ret, which = 'formula') <- formula
+  attr(ret, which = 'data') <- data
+  attr(ret, which = 'units') <- unt
+  attr(ret, which = 'survivalROC') <- tmp
+  attr(ret, which = 'threshold') <- coords(ret, x = 'best', best.method = c('youden'))$threshold # ?pROC:::coords.roc
+  return(ret)
+
+}
+
+#' @title Sprintf.survival_roc
+#' 
+#' @description
+#' ..
+#' 
+#' @param model `'survival_roc'` object
+#' 
+#' @param ... ..
+#' 
+#' 
+#' @export Sprintf.survival_roc
+#' @export
+Sprintf.survival_roc <- function(model, ...) {
+  fom <- attr(model, which = 'formula', exact = TRUE)
+  sroc <- attr(model, which = 'survivalROC', exact = TRUE)
+  noquote(sprintf(
+    fmt = 'Receiver operating characteristic (ROC) curve of %d-%s `%s` by the predictor `%s` is created using <u>**`R`**</u> package <u>**`survivalROC`**</u>. The Youden\'s index (e.g., the `%s` threshold that maximizes the sensitivity and specificity) is marked. Kaplan-Meier curves stratified by Youden\'s index are provided using <u>**`R`**</u> package <u>**`survival`**</u>.', 
+    sroc$predict.time, 
+    gsub('s$', replacement = '', attr(model, which = 'units', exact = TRUE)),
+    deparse1(fom[[2L]]),
+    deparse1(fom[[3L]]), deparse1(fom[[3L]])))
+}
+
+
+#' @title autoplot.survival_roc
+#' 
+#' @description
+#' ..
+#' 
+#' @param object `'survival_roc'` object
+#' 
+#' @param ... ..
+#' 
+#' @importFrom ggplot2 autoplot ggplot labs
+#' @export autoplot.survival_roc
+#' @export
+autoplot.survival_roc <- function(object, ...) {
+  attrs <- attributes(object)
+  fom <- attrs$formula
+  data <- attrs$data
+  thres <- attrs$threshold
+  x0 <- eval(call('>', fom[[3L]], thres), envir = data)
+  x <- structure(x0 + 1L, levels = paste(deparse1(fom[[3L]]), c('>', '<='), sprintf(fmt = '%.2f', thres)), class = 'factor')
+  sfit <- eval(call('survfit.formula', formula = eval(call('~', fom[[2L]], quote(x))), data = quote(data)))
+  sdiff <- eval(call('survdiff', formula = eval(call('~', fom[[2L]], quote(x))), data = quote(data)))
+  ggplot() + autolayer.survfit(sfit) + 
+    labs(x = attrs$units, 
+         title = sprintf('Threshold determined by %d-%s survival-ROC', attrs$survivalROC$predict.time, gsub('s$', replacement = '', attrs$units)),
+         caption = sprintf('p value %s, Log-rank (unweighted)', format.pval(.pval.survdiff(sdiff))),
+         colour = NULL, fill = NULL)
+}
+
+
+#' @title rmd_.survival_roc
+#' 
+#' @description
+#' ..
+#' 
+#' @param x [survival_roc]
+#' 
+#' @param xnm ..
+#' 
+#' @param ... ..
+#' 
+#' @export rmd_.survival_roc
+#' @export
+rmd_.survival_roc <- function(x, xnm, ...) {
+  h <- attr(x, which = 'fig.height', exact = TRUE) %||% 4
+  w <- attr(x, which = 'fig.width', exact = TRUE) %||% 7
+  r_figsz <- sprintf(fmt = '```{r results = \'asis\', fig.height = %.1f, fig.width = %.1f}', h, w)
+  return(c(
+    Sprintf.survival_roc(x),
+    r_figsz, 
+    sprintf(fmt = 'autoplot.survival_roc(%s)', xnm), 
+    '```'#,
+    #r_figsz, 
+    #sprintf(fmt = 'ggKM(%s)', .obj), # do we (mathematically) have this method?
+    # '```'
+  ))
+}
+
+
+
+
+
+
+
+#' @rdname survival_roc
+#' 
+#' @param plot must be `FALSE`, to suppress the plot from \link[risksetROC]{risksetROC}
+#' 
+#' @examples
+#' data(VA, package = 'MASS')
+#' va1 = within(VA, {
+#'  cell = factor(cell)
+#'  tx = (VA$treat == 1)
+#'  status[stime>500] <- 0
+#'  stime[stime>500 ] <- 500
+#' })
+#' library(survival)
+#' fit0 = coxph(Surv(stime,status) ~ Karn + cell + tx + age, data = va1, na.action = na.omit)
+#' va1$eta = fit0$linear.predictor
+#' new = riskset_roc(Surv(stime,status) ~ eta, data = va1, predict.time = 30)
+#' autoplot(new)
+#' 
+#' @importFrom risksetROC risksetROC
+#' @export
+riskset_roc <- function(
+    formula, data, predict.time,
+    plot = FALSE,
+    ...
+) {
+  
+  yval <- eval(formula[[2L]], envir = data)
+  xval <- eval(formula[[3L]], envir = data)
+
+  tmp <- risksetROC(Stime = yval[,1L], status = yval[,2L], marker = xval, predict.time = predict.time, 
+                    plot = FALSE, ...)
+  # `tmp` is a 'list'
+  # convert `tmp` to class `?pROC::roc`, so that I can use `?pROC:::plot.roc.roc`
+  
+  ret <- with(tmp, list(
+    percent = FALSE,
+    sensitivities = TP,
+    specificities = 1 - FP,
+    thresholds = marker,
+    auc = structure(AUC, partial.auc = FALSE, class = 'auc')
+  ))
+  attr(ret, which = 'main') <- paste0('Risk Set of ', deparse1(formula[[2L]]), ' at Time ', predict.time)
+  class(ret) <- 'roc'
+  return(ret)
+
+}
+
