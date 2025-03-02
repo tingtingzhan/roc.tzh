@@ -9,7 +9,7 @@
 roc.tzh
 }
 \author{
-\strong{Maintainer}: Tingting Zhan \email{tingtingzhan@gmail.com} [copyright holder]
+\strong{Maintainer}: Tingting Zhan \email{tingtingzhan@gmail.com}
 
 }
 \keyword{internal}

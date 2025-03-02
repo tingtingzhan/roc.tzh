@@ -28,16 +28,15 @@ to take advantages of S3 methods such as \link[pROC]{plot.roc} and \code{\link[=
 ?survivalROC::survivalROC
 data(mayo, package = 'survivalROC')
 library(survival)
-mayo = within(mayo, expr = {
- time = as.difftime(time, units = 'days')
- edp = Surv(time, censor)
-})
-m1 = survival_roc(edp ~ mayoscore4, data = mayo, predict.time = 365)
+m1 = mayo |> 
+ within.data.frame(expr = {
+  time = as.difftime(time, units = 'days')
+  edp = Surv(time, censor)
+ }) |>
+ survival_roc(formula = edp ~ mayoscore4, predict.time = 365)
 Sprintf.survival_roc(m1)
 autoplot.roc(m1)
 autoplot(m1)
-
-
 data(VA, package = 'MASS')
 va1 = within(VA, {
  cell = factor(cell)

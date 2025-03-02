@@ -8,12 +8,12 @@ Maintainer: Tingting Zhan <tingtingzhan@gmail.com>
 Description: To perform advanced ROC analysis.
 License: GPL-2
 Encoding: UTF-8
-Imports: ggrepel, pROC, risksetROC, scales, survival, survivalROC
+Imports: pROC, risksetROC, survivalROC
 Authors@R: c(person(given = "Tingting", family = "Zhan", role =
-       c("aut", "cre", "cph"), email =
+       c("aut", "cre"), email =
        c("tingtingzhan@gmail.com")))
 Language: en-US
 Roxygen: list(markdown = TRUE)
-Depends: R (>= 4.3.0), ggplot2
-Suggests: MASS
+Depends: R (>= 4.4.0), ggplot2, survival.tzh
+Suggests: MASS, survival
 RoxygenNote: 7.3.2
