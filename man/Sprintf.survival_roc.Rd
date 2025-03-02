@@ -4,12 +4,10 @@
 \alias{Sprintf.survival_roc}
 \title{Sprintf.survival_roc}
 \usage{
-Sprintf.survival_roc(model, ...)
+Sprintf.survival_roc(x)
 }
 \arguments{
-\item{model}{\code{'survival_roc'} object}
-
-\item{...}{..}
+\item{x}{\code{'survival_roc'} object}
 }
 \description{
 ..
