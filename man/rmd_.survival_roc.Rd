@@ -16,3 +16,7 @@ rmd_.survival_roc(x, xnm, ...)
 \description{
 ..
 }
+\note{
+to be imported into \pkg{rmarkdown.tzh}
+}
+\keyword{internal}
