@@ -81,12 +81,12 @@ survival_roc <- function(
 Sprintf.survival_roc <- function(x) {
   fom <- attr(x, which = 'formula', exact = TRUE)
   sroc <- attr(x, which = 'survivalROC', exact = TRUE)
-  noquote(sprintf(
+  sprintf(
     fmt = 'Receiver operating characteristic (ROC) curve of %d-%s `%s` by the predictor `%s` is created using <u>**`R`**</u> package <u>**`survivalROC`**</u>. The Youden\'s index (e.g., the `%s` threshold that maximizes the sensitivity and specificity) is marked. Kaplan-Meier curves stratified by Youden\'s index are provided using <u>**`R`**</u> package <u>**`survival`**</u>.', 
     sroc$predict.time, 
     gsub('s$', replacement = '', attr(x, which = 'units', exact = TRUE)),
     deparse1(fom[[2L]]),
-    deparse1(fom[[3L]]), deparse1(fom[[3L]])))
+    deparse1(fom[[3L]]), deparse1(fom[[3L]]))
 }
 
 

@@ -11,7 +11,10 @@
 #' 
 #' @param ... ..
 #' 
-#' @export rmd_.survival_roc
+#' @note
+#' to be imported into \pkg{rmarkdown.tzh}
+#' 
+#' @keywords internal
 #' @export
 rmd_.survival_roc <- function(x, xnm, ...) {
   h <- attr(x, which = 'fig.height', exact = TRUE) %||% 4
