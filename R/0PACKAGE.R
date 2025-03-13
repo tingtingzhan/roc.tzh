@@ -6,7 +6,7 @@
 #'
 #' roc.tzh
 #'
-#' @import survival.tzh
+# @import survival.tzh
 #' @keywords internal
 '_PACKAGE'
 

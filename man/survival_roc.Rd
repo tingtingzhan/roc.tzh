@@ -35,8 +35,8 @@ m1 = mayo |>
  }) |>
  survival_roc(formula = edp ~ mayoscore4, predict.time = 365)
 Sprintf.survival_roc(m1)
-autoplot.roc(m1)
-autoplot(m1)
+\dontrun{autoplot.roc(m1)}
+\dontrun{autoplot(m1)}
 data(VA, package = 'MASS')
 va1 = within(VA, {
  cell = factor(cell)

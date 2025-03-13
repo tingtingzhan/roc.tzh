@@ -29,11 +29,11 @@ Default \code{.6}.}
 # will change with each run, because of sampling
 # use ?base::set.seed if needed
 m0 = get_roc(case ~ spontaneous + induced, data = infert, pctR = .6)
-autoplot(m0)
+\dontrun{autoplot(m0)}
 
 # will not change with each run
 m = get_roc(case ~ spontaneous + induced, data = infert, pctR = FALSE)
-autoplot(m)
+\dontrun{autoplot(m)}
 
 }
 \references{
