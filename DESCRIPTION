@@ -14,6 +14,6 @@ Authors@R: c(person(given = "Tingting", family = "Zhan", role =
        c("tingtingzhan@gmail.com")))
 Language: en-US
 Roxygen: list(markdown = TRUE)
-Depends: R (>= 4.4.0), ggplot2, risksetROC, survivalROC
-Suggests: MASS, survival
+Depends: R (>= 4.4.0), ggplot2 (== 3.5.1), risksetROC (== 1.0.4.1), survivalROC (== 1.0.3.1)
+Suggests: MASS (== 7.3.65), survival (== 3.8.3)
 RoxygenNote: 7.3.2
