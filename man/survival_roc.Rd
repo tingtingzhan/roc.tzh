@@ -35,8 +35,8 @@ m1 = mayo |>
  }) |>
  survival_roc(formula = edp ~ mayoscore4, predict.time = 365)
 Sprintf.survival_roc(m1)
-\dontrun{autoplot.roc(m1)}
-\dontrun{autoplot(m1)}
+autoplot.roc(m1)
+\dontrun{autoplot(m1)} # unicode error on devtools::check
 data(VA, package = 'MASS')
 va1 = within(VA, {
  cell = factor(cell)

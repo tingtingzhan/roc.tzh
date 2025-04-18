@@ -29,8 +29,8 @@
 #'  }) |>
 #'  survival_roc(formula = edp ~ mayoscore4, predict.time = 365)
 #' Sprintf.survival_roc(m1)
-#' \dontrun{autoplot.roc(m1)}
-#' \dontrun{autoplot(m1)}
+#' autoplot.roc(m1)
+#' \dontrun{autoplot(m1)} # unicode error on devtools::check
 #' @name survival_roc
 #' @importFrom pROC coords
 #' @importFrom survivalROC survivalROC
@@ -102,7 +102,7 @@ Sprintf.survival_roc <- function(x) {
 #' 
 #' @importFrom ggplot2 autoplot ggplot labs
 #' @importFrom survival.tzh autolayer.survfit .pval.survdiff
-#' @importFrom flextable.tzh format_pval
+#' @importFrom scales.tzh label_pvalue_sym
 #' @export autoplot.survival_roc
 #' @export
 autoplot.survival_roc <- function(object, ...) {
@@ -117,7 +117,10 @@ autoplot.survival_roc <- function(object, ...) {
   ggplot() + autolayer.survfit(sfit) + 
     labs(x = attrs$units, 
          title = sprintf('Threshold determined by %d-%s survival-ROC', attrs$survivalROC$predict.time, gsub('s$', replacement = '', attrs$units)),
-         caption = sprintf('p value %s, Log-rank (unweighted)', format_pval(.pval.survdiff(sdiff))),
+         caption = sdiff |>
+           .pval.survdiff() |>
+           label_pvalue_sym(add_p = TRUE)() |> 
+           sprintf(fmt = '%s, Log-rank (unweighted)'),
          colour = NULL, fill = NULL)
 }
 
