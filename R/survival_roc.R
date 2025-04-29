@@ -22,6 +22,7 @@
 #' ?survivalROC::survivalROC
 #' data(mayo, package = 'survivalROC')
 #' library(survival)
+#' library(ggplot2)
 #' m1 = mayo |> 
 #'  within.data.frame(expr = {
 #'   time = as.difftime(time, units = 'days')
@@ -134,6 +135,7 @@ autoplot.survival_roc <- function(object, ...) {
 #' @param plot must be `FALSE`, to suppress the plot from \link[risksetROC]{risksetROC}
 #' 
 #' @examples
+#' library(ggplot2)
 #' data(VA, package = 'MASS')
 #' va1 = within(VA, {
 #'  cell = factor(cell)

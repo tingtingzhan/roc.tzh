@@ -28,6 +28,7 @@ to take advantages of S3 methods such as \link[pROC]{plot.roc} and \code{\link[=
 ?survivalROC::survivalROC
 data(mayo, package = 'survivalROC')
 library(survival)
+library(ggplot2)
 m1 = mayo |> 
  within.data.frame(expr = {
   time = as.difftime(time, units = 'days')
@@ -37,6 +38,7 @@ m1 = mayo |>
 Sprintf.survival_roc(m1)
 autoplot.roc(m1)
 \dontrun{autoplot(m1)} # unicode error on devtools::check
+library(ggplot2)
 data(VA, package = 'MASS')
 va1 = within(VA, {
  cell = factor(cell)
