@@ -2,17 +2,19 @@ Package: roc.tzh
 Type: Package
 Title: Advanced ROC Plots
 Version: 0.1.0
-Date: 2024-01-15
+Date: 2025-04-28
 Description: To perform advanced ROC analysis.
 License: GPL-2
 Encoding: UTF-8
-Imports: pROC, scales.tzh, survival.tzh
 Authors@R: c(person(given = 'Tingting', family = 'Zhan',
       role = c('aut', 'cre'), email =
       'tingtingzhan@gmail.com', comment = c(ORCID =
       '0000-0001-9971-4844')))
 Language: en-US
 Roxygen: list(markdown = TRUE)
-Depends: R (>= 4.4.0), ggplot2 (== 3.5.2), risksetROC (== 1.0.4.1), survivalROC (== 1.0.3.1)
-Suggests: MASS (== 7.3.65), survival (== 3.8.3)
+Depends: R (>= 4.5.0)
+Imports: ggplot2 (== 3.5.2), pROC, risksetROC (== 1.0.4.1), survivalROC (== 1.0.3.1), 
+      scales.tzh, survival.tzh
+Suggests: MASS (== 7.3.65), 
+      survival (== 3.8.3)
 RoxygenNote: 7.3.2
