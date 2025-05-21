@@ -85,6 +85,10 @@ survival_roc <- function(
 #' 
 #' @param x `'survival_roc'` object
 #' 
+#' @param xnm ..
+#' 
+#' @param ... ..
+#' 
 #' @importFrom rmd.tzh md_
 #' @export md_.survival_roc
 #' @export

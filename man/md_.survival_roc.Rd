@@ -8,6 +8,10 @@
 }
 \arguments{
 \item{x}{\code{'survival_roc'} object}
+
+\item{xnm}{..}
+
+\item{...}{..}
 }
 \description{
 ..
