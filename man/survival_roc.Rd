@@ -35,9 +35,12 @@ m1 = mayo |>
   edp = Surv(time, censor)
  }) |>
  survival_roc(formula = edp ~ mayoscore4, predict.time = 365)
-Sprintf.survival_roc(m1)
 autoplot.roc(m1)
 \dontrun{autoplot(m1)} # unicode error on devtools::check
+
+library(rmd.tzh); list(
+  'survival_roc' = m1
+) |> render_(file = 'survival_roc')
 library(ggplot2)
 data(VA, package = 'MASS')
 va1 = within(VA, {

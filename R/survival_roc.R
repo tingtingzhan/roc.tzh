@@ -29,9 +29,12 @@
 #'   edp = Surv(time, censor)
 #'  }) |>
 #'  survival_roc(formula = edp ~ mayoscore4, predict.time = 365)
-#' Sprintf.survival_roc(m1)
 #' autoplot.roc(m1)
 #' \dontrun{autoplot(m1)} # unicode error on devtools::check
+#' 
+#' library(rmd.tzh); list(
+#'   'survival_roc' = m1
+#' ) |> render_(file = 'survival_roc')
 #' @name survival_roc
 #' @importFrom pROC coords
 #' @importFrom survivalROC survivalROC
@@ -71,25 +74,48 @@ survival_roc <- function(
 
 }
 
-#' @title Sprintf.survival_roc
+
+
+
+
+#' @title md_.survival_roc
 #' 
 #' @description
 #' ..
 #' 
 #' @param x `'survival_roc'` object
 #' 
-#' @export Sprintf.survival_roc
+#' @importFrom rmd.tzh md_
+#' @export md_.survival_roc
 #' @export
-Sprintf.survival_roc <- function(x) {
+md_.survival_roc <- function(x, xnm, ...) {
+  
   fom <- attr(x, which = 'formula', exact = TRUE)
   sroc <- attr(x, which = 'survivalROC', exact = TRUE)
-  sprintf(
+  txt <- sprintf(
     fmt = 'Receiver operating characteristic (ROC) curve of %d-%s `%s` by the predictor `%s` is created using <u>**`R`**</u> package <u>**`survivalROC`**</u>. The Youden\'s index (e.g., the `%s` threshold that maximizes the sensitivity and specificity) is marked. Kaplan-Meier curves stratified by Youden\'s index are provided using <u>**`R`**</u> package <u>**`survival`**</u>.', 
     sroc$predict.time, 
     gsub('s$', replacement = '', attr(x, which = 'units', exact = TRUE)),
     deparse1(fom[[2L]]),
     deparse1(fom[[3L]]), deparse1(fom[[3L]]))
+  
+  return(c(
+    txt,
+    '\n',
+    '```{r}',
+    (attr(x, which = 'fig.height', exact = TRUE) %||% 4) |> sprintf(fmt = '#| fig-height: %.1f'),
+    (attr(x, which = 'fig.width', exact = TRUE) %||% 7) |> sprintf(fmt = '#| fig-width: %.1f'),
+    sprintf(fmt = '(%s) |> autoplot.survival_roc()', xnm),
+    '```'
+  ))
+  
 }
+
+
+
+
+
+
 
 
 #' @title autoplot.survival_roc
