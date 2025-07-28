@@ -89,29 +89,36 @@ survival_roc <- function(
 #' 
 #' @param ... ..
 #' 
+#' @keywords internal
+#' @importFrom methods new
 #' @importFrom rmd.tzh md_
+#' @importClassesFrom rmd.tzh md_lines
 #' @export md_.survival_roc
 #' @export
 md_.survival_roc <- function(x, xnm, ...) {
   
   fom <- attr(x, which = 'formula', exact = TRUE)
   sroc <- attr(x, which = 'survivalROC', exact = TRUE)
-  txt <- sprintf(
+  
+  z1 <- sprintf(
     fmt = 'Receiver operating characteristic (ROC) curve of %d-%s `%s` by the predictor `%s` is created using <u>**`R`**</u> package <u>**`survivalROC`**</u>. The Youden\'s index (e.g., the `%s` threshold that maximizes the sensitivity and specificity) is marked. Kaplan-Meier curves stratified by Youden\'s index are provided using <u>**`R`**</u> package <u>**`survival`**</u>.', 
     sroc$predict.time, 
     gsub('s$', replacement = '', attr(x, which = 'units', exact = TRUE)),
     deparse1(fom[[2L]]),
-    deparse1(fom[[3L]]), deparse1(fom[[3L]]))
+    deparse1(fom[[3L]]), deparse1(fom[[3L]])
+  ) |> 
+    new(Class = 'md_lines', package = 'survivalROC')
   
-  return(c(
-    txt,
-    '\n',
+  z2 <- c(
     '```{r}',
     (attr(x, which = 'fig.height', exact = TRUE) %||% 4) |> sprintf(fmt = '#| fig-height: %.1f'),
     (attr(x, which = 'fig.width', exact = TRUE) %||% 7) |> sprintf(fmt = '#| fig-width: %.1f'),
     sprintf(fmt = '(%s) |> autoplot.survival_roc()', xnm),
     '```'
-  ))
+  ) |> 
+    new(Class = 'md_lines', package = 'survivalROC')
+  
+  c(z1, z2) # ?rmd.tzh::c.md_lines
   
 }
 
@@ -133,7 +140,7 @@ md_.survival_roc <- function(x, xnm, ...) {
 #' 
 #' @importFrom ggplot2 autoplot ggplot labs
 #' @importFrom survival.tzh autolayer.survfit .pval.survdiff
-#' @importFrom scales.tzh label_pvalue_sym
+#' @importFrom rmd.tzh label_pvalue_sym
 #' @export autoplot.survival_roc
 #' @export
 autoplot.survival_roc <- function(object, ...) {
