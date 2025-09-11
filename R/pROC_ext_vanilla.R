@@ -66,7 +66,8 @@ get_roc <- function(
   
   modR <- glm(formula, data = dataR, family = binomial(link = 'logit')) # training model
   
-  trms <- attr(modR[['terms']], which = 'dataClasses', exact = TRUE)
+  trms <- modR[['terms']] |>
+    attr(which = 'dataClasses', exact = TRUE)
   if (length(trms) == 2L && trms[2L] == 'numeric') { # single numeric predictor
     X <- eval(formula[[3L]], envir = data)
     rocS <- roc(edp1[idxS] ~ X, quiet = TRUE, percent = TRUE) # test ROC

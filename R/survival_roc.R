@@ -32,9 +32,9 @@
 #' autoplot.roc(m1)
 #' \dontrun{autoplot(m1)} # unicode error on devtools::check
 #' 
-#' library(rmd.tzh); list(
+#' list(
 #'   'survival_roc' = m1
-#' ) |> render_(file = 'survival_roc')
+#' ) |> rmd.tzh::render_(file = 'survival_roc')
 #' @name survival_roc
 #' @importFrom pROC coords
 #' @importFrom survivalROC survivalROC
@@ -111,6 +111,7 @@ md_.survival_roc <- function(x, xnm, ...) {
   
   z2 <- c(
     '```{r}',
+    '#| echo: false',
     (attr(x, which = 'fig.height', exact = TRUE) %||% 4) |> sprintf(fmt = '#| fig-height: %.1f'),
     (attr(x, which = 'fig.width', exact = TRUE) %||% 7) |> sprintf(fmt = '#| fig-width: %.1f'),
     sprintf(fmt = '(%s) |> autoplot.survival_roc()', xnm),

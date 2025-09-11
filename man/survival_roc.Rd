@@ -38,9 +38,9 @@ m1 = mayo |>
 autoplot.roc(m1)
 \dontrun{autoplot(m1)} # unicode error on devtools::check
 
-library(rmd.tzh); list(
+list(
   'survival_roc' = m1
-) |> render_(file = 'survival_roc')
+) |> rmd.tzh::render_(file = 'survival_roc')
 library(ggplot2)
 data(VA, package = 'MASS')
 va1 = within(VA, {
