@@ -7,7 +7,7 @@
 \method{autoplot}{roc}(object, ...)
 }
 \arguments{
-\item{object}{roc}
+\item{object}{\link[pROC]{roc} object}
 
 \item{...}{additional parameters, currently not in use}
 }

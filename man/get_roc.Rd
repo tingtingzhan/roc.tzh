@@ -23,19 +23,21 @@ Default \code{.6}.}
 ..
 }
 \examples{
-?infert
+# ?datasets::infert
 # using the wrong model just to illustrate the creation of ROC plot
 
 # will change with each run, because of sampling
-# use ?base::set.seed if needed
-m0 = get_roc(case ~ spontaneous + induced, data = infert, pctR = .6)
-\dontrun{autoplot(m0)}
+set.seed(12); list(
+  'with-seed' = get_roc(case ~ spontaneous + induced, data = infert, pctR = .6)
+) |> rmd.tzh::render_(file = 'roc1')
 
 # will not change with each run
-m = get_roc(case ~ spontaneous + induced, data = infert, pctR = FALSE)
-\dontrun{autoplot(m)}
+list(
+  'without-seed' = get_roc(case ~ spontaneous + induced, data = infert, pctR = FALSE)
+) |> rmd.tzh::render_(file = 'roc2')
 
 }
 \references{
 Inspired by \url{https://daviddalpiaz.github.io/r4sl/logistic-regression.html}
 }
+\keyword{internal}
