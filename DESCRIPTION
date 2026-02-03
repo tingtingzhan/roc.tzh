@@ -12,7 +12,7 @@ Authors@R: c(person(given = 'Tingting', family = 'Zhan',
 Language: en-US
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.5.0)
-Imports: methods, ggplot2 (== 4.0.1), pROC, risksetROC (== 1.0.4.1), survivalROC (== 1.0.3.1), 
+Imports: methods, ggplot2 (== 4.0.2), pROC (== 1.19.0.1), risksetROC (== 1.0.4.1), survivalROC (== 1.0.3.1), 
   rmd.tzh, survival.tzh
 Suggests: MASS (== 7.3.65), survival (== 3.8.3)
 RoxygenNote: 7.3.3
