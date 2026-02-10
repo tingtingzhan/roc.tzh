@@ -29,12 +29,12 @@ Default \code{.6}.}
 # will change with each run, because of sampling
 set.seed(12); list(
   'with-seed' = get_roc(case ~ spontaneous + induced, data = infert, pctR = .6)
-) |> rmd.tzh::render_(file = 'roc1')
+) |> fastmd::render_(file = 'roc1')
 
 # will not change with each run
 list(
   'without-seed' = get_roc(case ~ spontaneous + induced, data = infert, pctR = FALSE)
-) |> rmd.tzh::render_(file = 'roc2')
+) |> fastmd::render_(file = 'roc2')
 
 }
 \references{

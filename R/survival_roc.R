@@ -34,7 +34,7 @@
 #' 
 #' list(
 #'   'survival_roc' = m1
-#' ) |> rmd.tzh::render_(file = 'survival_roc')
+#' ) |> fastmd::render_(file = 'survival_roc')
 #' @name survival_roc
 #' @importFrom pROC coords
 #' @importFrom survivalROC survivalROC
@@ -91,8 +91,8 @@ survival_roc <- function(
 #' 
 #' @keywords internal
 #' @importFrom methods new
-#' @importFrom rmd.tzh md_
-#' @importClassesFrom rmd.tzh md_lines
+#' @importFrom fastmd md_
+#' @importClassesFrom fastmd md_lines
 #' @export md_.survival_roc
 #' @export
 md_.survival_roc <- function(x, xnm, ...) {
@@ -119,7 +119,7 @@ md_.survival_roc <- function(x, xnm, ...) {
   ) |> 
     new(Class = 'md_lines', package = 'survivalROC')
   
-  c(z1, z2) # ?rmd.tzh::c.md_lines
+  c(z1, z2) # ?fastmd::c.md_lines
   
 }
 
@@ -141,7 +141,7 @@ md_.survival_roc <- function(x, xnm, ...) {
 #' 
 #' @importFrom ggplot2 autoplot ggplot labs
 #' @importFrom survival.tzh autolayer.survfit .pval.survdiff
-#' @importFrom rmd.tzh label_pvalue_sym
+#' @importFrom fastmd label_pvalue_sym
 #' @export autoplot.survival_roc
 #' @export
 autoplot.survival_roc <- function(object, ...) {

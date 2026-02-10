@@ -26,12 +26,12 @@
 #' # will change with each run, because of sampling
 #' set.seed(12); list(
 #'   'with-seed' = get_roc(case ~ spontaneous + induced, data = infert, pctR = .6)
-#' ) |> rmd.tzh::render_(file = 'roc1')
+#' ) |> fastmd::render_(file = 'roc1')
 #' 
 #' # will not change with each run
 #' list(
 #'   'without-seed' = get_roc(case ~ spontaneous + induced, data = infert, pctR = FALSE)
-#' ) |> rmd.tzh::render_(file = 'roc2')
+#' ) |> fastmd::render_(file = 'roc2')
 #' 
 #' @keywords internal
 #' @importFrom pROC roc
@@ -139,8 +139,8 @@ autoplot.roc <- function(
 #' 
 #' @keywords internal
 #' @importFrom methods new
-#' @importFrom rmd.tzh md_
-#' @importClassesFrom rmd.tzh md_lines
+#' @importFrom fastmd md_
+#' @importClassesFrom fastmd md_lines
 #' @export md_.roc
 #' @export
 md_.roc <- function(x, xnm, ...) {
@@ -167,7 +167,7 @@ md_.roc <- function(x, xnm, ...) {
   ) |> 
     new(Class = 'md_lines', package = 'pROC')
   
-  #return(c(z1, z2)) # ?rmd.tzh::c.md_lines
+  #return(c(z1, z2)) # ?fastmd::c.md_lines
   return(z2)
   
 }
