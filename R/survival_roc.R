@@ -34,7 +34,7 @@
 #' 
 #' list(
 #'   'survival_roc' = m1
-#' ) |> fastmd::render_(file = 'survival_roc')
+#' ) |> fastmd::render2html(file = 'survival_roc')
 #' @name survival_roc
 #' @importFrom pROC coords
 #' @importFrom survivalROC survivalROC

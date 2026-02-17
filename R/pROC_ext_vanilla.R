@@ -26,12 +26,12 @@
 #' # will change with each run, because of sampling
 #' set.seed(12); list(
 #'   'with-seed' = get_roc(case ~ spontaneous + induced, data = infert, pctR = .6)
-#' ) |> fastmd::render_(file = 'roc1')
+#' ) |> fastmd::render2html(file = 'roc1')
 #' 
 #' # will not change with each run
 #' list(
 #'   'without-seed' = get_roc(case ~ spontaneous + induced, data = infert, pctR = FALSE)
-#' ) |> fastmd::render_(file = 'roc2')
+#' ) |> fastmd::render2html(file = 'roc2')
 #' 
 #' @keywords internal
 #' @importFrom pROC roc

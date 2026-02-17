@@ -40,7 +40,7 @@ autoplot.roc(m1)
 
 list(
   'survival_roc' = m1
-) |> fastmd::render_(file = 'survival_roc')
+) |> fastmd::render2html(file = 'survival_roc')
 library(ggplot2)
 data(VA, package = 'MASS')
 va1 = within(VA, {
