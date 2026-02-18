@@ -8,6 +8,7 @@
 #'
 # @import survival.tzh
 #' @keywords internal
+#' @import methods
 #' @import stats
 '_PACKAGE'
 

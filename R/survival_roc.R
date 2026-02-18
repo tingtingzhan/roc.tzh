@@ -90,7 +90,6 @@ survival_roc <- function(
 #' @param ... ..
 #' 
 #' @keywords internal
-#' @importFrom methods new
 #' @importFrom fastmd md_
 #' @importClassesFrom fastmd md_lines
 #' @export md_.survival_roc
@@ -111,7 +110,6 @@ md_.survival_roc <- function(x, xnm, ...) {
   
   z2 <- c(
     '```{r}',
-    '#| echo: false',
     (attr(x, which = 'fig.height', exact = TRUE) %||% 4) |> sprintf(fmt = '#| fig-height: %.1f'),
     (attr(x, which = 'fig.width', exact = TRUE) %||% 7) |> sprintf(fmt = '#| fig-width: %.1f'),
     sprintf(fmt = '(%s) |> autoplot.survival_roc()', xnm),
