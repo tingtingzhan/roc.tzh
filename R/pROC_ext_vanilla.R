@@ -26,12 +26,12 @@
 #' # will change with each run, because of sampling
 #' set.seed(12); list(
 #'   'with-seed' = get_roc(case ~ spontaneous + induced, data = infert, pctR = .6)
-#' ) |> fastmd::render2html(file = 'roc1')
+#' ) |> fastmd::render2html()
 #' 
 #' # will not change with each run
 #' list(
 #'   'without-seed' = get_roc(case ~ spontaneous + induced, data = infert, pctR = FALSE)
-#' ) |> fastmd::render2html(file = 'roc2')
+#' ) |> fastmd::render2html()
 #' 
 #' @keywords internal
 #' @importFrom pROC roc
@@ -138,7 +138,7 @@ autoplot.roc <- function(
 #' @param ... ..
 #' 
 #' @keywords internal
-#' @importFrom fastmd md_
+#' @importFrom fastmd md_ md_autoplot_
 #' @importClassesFrom fastmd md_lines
 #' @export md_.roc
 #' @export
@@ -156,14 +156,7 @@ md_.roc <- function(x, xnm, ...) {
   #) |> # fix in future!!
   #  new(Class = 'md_lines', package = 'pROC')
   
-  z2 <- c(
-    '```{r}',
-    (attr(x, which = 'fig.height', exact = TRUE) %||% 4) |> sprintf(fmt = '#| fig-height: %.1f'),
-    (attr(x, which = 'fig.width', exact = TRUE) %||% 7) |> sprintf(fmt = '#| fig-width: %.1f'),
-    sprintf(fmt = '(%s) |> autoplot.roc()', xnm),
-    '```'
-  ) |> 
-    new(Class = 'md_lines', package = 'pROC')
+  z2 <- md_autoplot_(x = x, xnm = xnm, ...)
   
   #return(c(z1, z2)) # ?fastmd::c.md_lines
   return(z2)

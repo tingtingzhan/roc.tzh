@@ -34,7 +34,7 @@
 #' 
 #' list(
 #'   'survival_roc' = m1
-#' ) |> fastmd::render2html(file = 'survival_roc')
+#' ) |> fastmd::render2html()
 #' @name survival_roc
 #' @importFrom pROC coords
 #' @importFrom survivalROC survivalROC
@@ -90,7 +90,7 @@ survival_roc <- function(
 #' @param ... ..
 #' 
 #' @keywords internal
-#' @importFrom fastmd md_
+#' @importFrom fastmd md_ md_autoplot_
 #' @importClassesFrom fastmd md_lines
 #' @export md_.survival_roc
 #' @export
@@ -108,14 +108,7 @@ md_.survival_roc <- function(x, xnm, ...) {
   ) |> 
     new(Class = 'md_lines', package = 'survivalROC')
   
-  z2 <- c(
-    '```{r}',
-    (attr(x, which = 'fig.height', exact = TRUE) %||% 4) |> sprintf(fmt = '#| fig-height: %.1f'),
-    (attr(x, which = 'fig.width', exact = TRUE) %||% 7) |> sprintf(fmt = '#| fig-width: %.1f'),
-    sprintf(fmt = '(%s) |> autoplot.survival_roc()', xnm),
-    '```'
-  ) |> 
-    new(Class = 'md_lines', package = 'survivalROC')
+  z2 <- md_autoplot_(x = x, xnm = xnm, ...)
   
   c(z1, z2) # ?fastmd::c.md_lines
   
