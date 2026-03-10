@@ -138,7 +138,7 @@ autoplot.roc <- function(
 #' @param ... ..
 #' 
 #' @keywords internal
-#' @importFrom fastmd md_ md_autoplot_
+#' @importFrom fastmd md_ md_int
 #' @importClassesFrom fastmd md_lines
 #' @export md_.roc
 #' @export
@@ -156,7 +156,7 @@ md_.roc <- function(x, xnm, ...) {
   #) |> # fix in future!!
   #  new(Class = 'md_lines', package = 'pROC')
   
-  z2 <- md_autoplot_(x = x, xnm = xnm, ...)
+  z2 <- md_int(x = x, xnm = xnm, engine = 'autoplot',...)
   
   #return(c(z1, z2)) # ?fastmd::c.md_lines
   return(z2)

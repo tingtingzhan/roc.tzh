@@ -90,7 +90,7 @@ survival_roc <- function(
 #' @param ... ..
 #' 
 #' @keywords internal
-#' @importFrom fastmd md_ md_autoplot_
+#' @importFrom fastmd md_ md_int
 #' @importClassesFrom fastmd md_lines
 #' @export md_.survival_roc
 #' @export
@@ -108,7 +108,7 @@ md_.survival_roc <- function(x, xnm, ...) {
   ) |> 
     new(Class = 'md_lines', package = 'survivalROC')
   
-  z2 <- md_autoplot_(x = x, xnm = xnm, ...)
+  z2 <- md_int(x = x, xnm = xnm, engine = 'autoplot', ...)
   
   c(z1, z2) # ?fastmd::c.md_lines
   
@@ -131,8 +131,9 @@ md_.survival_roc <- function(x, xnm, ...) {
 #' @param ... ..
 #' 
 #' @importFrom ggplot2 autoplot ggplot labs
-#' @importFrom survival.tzh autolayer.survfit .pval.survdiff
+#' @importFrom survival.tzh autolayer.survfit
 #' @importFrom fastmd label_pvalue_sym
+#' @importFrom ecip .pval
 #' @export autoplot.survival_roc
 #' @export
 autoplot.survival_roc <- function(object, ...) {
@@ -148,7 +149,7 @@ autoplot.survival_roc <- function(object, ...) {
     labs(x = attrs$units, 
          title = sprintf('Threshold determined by %d-%s survival-ROC', attrs$survivalROC$predict.time, gsub('s$', replacement = '', attrs$units)),
          caption = sdiff |>
-           .pval.survdiff() |>
+           .pval() |> # survival.tzh:::.pval.survdiff
            label_pvalue_sym(add_p = TRUE)() |> 
            sprintf(fmt = '%s, Log-rank (unweighted)'),
          colour = NULL, fill = NULL)
